@@ -36,7 +36,7 @@ Este projeto é uma aplicação web desenvolvida com **Laravel** para **criaçã
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
+git clone https://github.com/EnzoVilasBoas/taskManager.git
 cd seu-repo
 ```
 
