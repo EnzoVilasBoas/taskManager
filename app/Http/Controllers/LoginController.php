@@ -4,29 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth'); // Crie essa view com seu formulário
+        return view('auth');
     }
 
     public function login(Request $request)
     {
-        // Validação dos dados do formulário
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Tentativa de login
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dash'); // ou sua rota de destino
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || $user->stats != 1) {
+            return back()->withErrors([
+                'email' => 'Usuário inativo ou não encontrado.',
+            ])->withInput();
         }
 
-        // Se falhar, volta com erro
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dash');
+        }
+
         return back()->withErrors([
             'email' => 'Credenciais inválidas.',
         ])->withInput();

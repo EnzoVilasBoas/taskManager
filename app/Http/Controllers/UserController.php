@@ -71,9 +71,9 @@ class UserController extends Controller
     public function statsUpdate($id, $stats)
     {
         $user = User::findOrFail($id);
-        if ($stats == "on") {
+        if ($stats == "off") {
             $user->update(['stats' => 1]);
-        } elseif ($stats == "off") {
+        } elseif ($stats == "on") {
             $user->update(['stats' => 0]);
         }
 
